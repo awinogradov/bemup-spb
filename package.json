@@ -1,18 +1,18 @@
 {
     "private": true,
     "name": "bemup-spb",
-    "version": "0.0.0",
-    "description": "Description for bemup-spb",
-    "homepage": "https://github.com/Anton Winogradov/bemup-spb",
-    "bugs": "https://github.com/Anton Winogradov/bemup-spb/issues",
+    "version": "0.0.1",
+    "description": "App prototyping for bemup-spb",
+    "homepage": "https://github.com/verybigman/bemup-spb",
+    "bugs": "https://github.com/verybigman/bemup-spb/issues",
     "author": {
         "name": "Anton Winogradov",
         "email": "winogradovaa@gmail.com",
-        "url": "https://github.com/Anton Winogradov"
+        "url": "https://github.com/verybigman"
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/Anton Winogradov/bemup-spb.git"
+        "url": "git://github.com/verybigman/bemup-spb.git"
     },
     "_directories": {
         "app": "app",
@@ -22,30 +22,39 @@
         "libs": "libs",
         "public": "public",
         "styles": "assets",
-        "scripts": "assets"
+        "scripts": "assets",
+        "assets": {
+            "folder": "assets",
+            "path": "public/assets"
+        }
     },
     "_settings": {
         "env": "development"
     },
     "dependencies": {
         "bem-environ": "~1.4.0",
-        "roole": "~0.9.0",
         "bem-tools-autoprefixer": "~0.0.3",
         "stylus": "^0.47.3"
     },
     "devDependencies": {
         "bem": "~0.8.1",
-        "bower": "~1.2.8",
-        "borschik": "~0.4.2",
-        "bower-npm-install": "~0.5.2",
         "bem-cli": "~1.0.1",
+        "borschik": "~0.4.2",
+        "bower": "~1.2.8",
+        "bower-npm-install": "~0.5.2",
+        "browser-sync": "^1.3.5",
         "gulp": "~3.8.7",
+        "gulp-concat": "~2.2.0",
+        "gulp-csso": "~0.2.7",
+        "gulp-filter": "^1.0.0",
         "gulp-if": "0.0.5",
         "gulp-jshint": "~1.5.0",
-        "gulp-csso": "~0.2.7",
-        "gulp-rename": "~1.2.0",
+        "gulp-load-plugins": "^0.5.3",
+        "gulp-nodemon": "^1.0.4",
         "gulp-notify": "~1.2.5",
-        "gulp-concat": "~2.2.0"
+        "gulp-rename": "~1.2.0",
+        "gulp-shell": "^0.2.9",
+        "run-sequence": "^0.3.6"
     },
     "scripts": {
         "postinstall": "bower-npm-install --non-interactive",

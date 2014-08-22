@@ -1,12 +1,12 @@
 var dirs = require('../package.json')._directories,
-    path = require('path');
+    path = require('path'),
+    U    = require('bem').util;
 
-// npm package with tech for autoprefixer
-// more info here: https://github.com/bem/bem-tools-autoprefixer
 require('bem-tools-autoprefixer').extendMake(MAKE);
 
 MAKE.decl('Arch', {
 
+    blocksLevelsRegexp : /^.+?\.blocks$/,
     bundlesLevelsRegexp : /^.+?\.bundles$/
 
 });
@@ -21,64 +21,52 @@ MAKE.decl('BundleNode', {
             'deps.js',
             'stylus',
             'css',
-            'js',
             'bemhtml',
+            'browser.js+bemhtml',
             'html'
         ];
 
     },
 
     getForkedTechs : function() {
-        return this.__base().concat(['stylus']);
+        return this.__base().concat(['browser.js+bemhtml', 'stylus']);
     },
 
-    getLevelsMap : function() {
-        return {
-            'desktop':
-            // bem-core levels
-            [
-                'common.blocks',
-                'desktop.blocks'
-            ].map(function(level){ return path.join(dirs.libs, 'bem-core', level); })
+    getPlatform : function(levelpath) {
+        return levelpath.split('.')[0].replace(/-([a-z])/gi, function(_, letter) {
+            return letter.toUpperCase();
+        });
+    },
 
-            // bem-components levels
-            .concat(
-                [
-                    'common.blocks',
-                    'desktop.blocks',
-                    'design/common.blocks',
-                    'design/desktop.blocks'
-                ].map(function(level){ return path.join(dirs.libs, 'bem-components', level); })
-            )
-
-            // bem-ng levels
-            // .concat(
-            //     [
-            //         'libs.blocks',
-            //         'common.blocks',
-            //     ].map(function(level){ return path.join(dirs.libs, 'bem-ng', level); })
-            // )
-
-            // project levels
-            .concat(
-                [
-                    'libs.blocks',
-                    'common.blocks',
-                    'design/common.blocks',
-                    'desktop.blocks',
-                    'design/desktop.blocks'
-                ]
-            ),
-
-            'touch-pad': [],
-            'touch-phone': []
-        };
+    getDesktopLevels : function() {
+        return [
+            'libs/bem-core/common.blocks',
+            'libs/bem-core/desktop.blocks',
+            'libs/bem-components/common.blocks',
+            'libs/bem-components/desktop.blocks',
+            'libs/bem-components/design/common.blocks',
+            'libs/bem-components/design/desktop.blocks',
+            'libs/bem-grid/common.blocks',
+            'common.blocks',
+            'design/common.blocks',
+            'desktop.blocks',
+            'design/desktop.blocks'
+        ];
     },
 
     getLevels : function() {
         var resolve = path.resolve.bind(path, this.root),
-            buildLevel = this.getLevelPath().split('.')[0],
-            levels = this.getLevelsMap()[buildLevel] || [];
+            buildLevel = this.getLevelPath(),
+            getPlatformLevelsFn = 'get' + U.toUpperCaseFirst(this.getPlatform(buildLevel)) + 'Levels',
+            levels = [];
+
+        if(typeof this[getPlatformLevelsFn] === 'function') {
+            Array.prototype.push.apply(levels, this[getPlatformLevelsFn].apply(this, arguments));
+        }
+
+        if(!levels.length) {
+            return [];
+        }
 
         return levels
             .map(function(path) { return resolve(path); })
@@ -109,22 +97,10 @@ MAKE.decl('AutoprefixerNode', {
                 'last 2 versions',
                 'ie 10',
                 'ff 24',
-                'opera 12.16'
-            ];
-
-        case 'touch-pad':
-            return [
+                'opera 12.16',
                 'android 4',
-                'ios 5'
+                'ios 6'
             ];
-
-        case 'touch-phone':
-            return [
-                'android 4',
-                'ios 6',
-                'ie 10'
-            ];
-
         }
 
         return this.__base();
@@ -137,6 +113,6 @@ MAKE.decl('BundlesLevelNode', {
         return true;
     },
     mergedBundleName: function() {
-        return 'assets';
+        return dirs.assets.folder;
     }
 });

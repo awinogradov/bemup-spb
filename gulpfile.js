@@ -1,87 +1,103 @@
-var pkg      = require('./package.json'),
-    dirs     = pkg._directories,
+var $        = require('gulp-load-plugins')(),
+    pkg      = require('./package.json'),
+    bsync    = require('browser-sync'),
+    tsync    = require('run-sequence'),
     bem      = require('bem').api,
+    dirs     = pkg._directories,
     gulp     = require('gulp'),
-    gif      = require('gulp-if'),
-    csso     = require('gulp-csso'),
-    concat   = require('gulp-concat'),
-    notify   = require('gulp-notify'),
-    rename   = require('gulp-rename'),
     path     = require('path'),
     join     = path.join,
 
     PLATFORM = 'desktop',      // folders with bundles
-    ASSETS   = 'assets',       // merged bundle name, united css ans js
-    ANAME    = 'application',  // assets filename for minified css and js
-    VNAME    = 'plugins',      // vendors filename for minified css and js
+    NAME     = 'application',  // assets filename for minified css and js
 
-    APATH     = join(PLATFORM + '.bundles', ASSETS),
-    ACSS      = join(APATH, '_' + ASSETS + '.css'),
-    AJS       = join(APATH, '_' + ASSETS + '.js'),
-    BUNDLES   = ['index'].map(function(bundle){ return join(PLATFORM + '.bundles', bundle, bundle + '.html')}),
-    TEMPLATES = [
-        {
-            module: 'system',
-            templates: ['index']
-        }
-    ],
-
-    PCSS     = join(dirs.public, dirs.styles),
-    PJS      = join(dirs.public, dirs.scripts),
-
-    V        = pkg.version,
-    DNAME    = pkg.name + '_v' + V;
+    PATH     = join(PLATFORM + '.bundles', dirs.assets.folder),
+    CSS      = join(PATH, '_' + dirs.assets.folder + '.css'),
+    JS       = join(PATH, '_' + dirs.assets.folder + '.js'),
+    BUNDLES  = ['index'].map(function (bundle) {return join(PLATFORM + '.bundles', bundle, bundle + '.html');});
 
 gulp.task('styles', function() {
-    gulp.src(ACSS)
-        .pipe(csso())
-        .pipe(rename(ANAME + '.min.css'))
-        .pipe(gulp.dest(PCSS));
+    return gulp.src(CSS)
+        .pipe($.csso())
+        .pipe($.rename(NAME + '.min.css'))
+        .pipe(gulp.dest(join(dirs.public, dirs.styles)));
 });
 
-gulp.task('plugins', function() {
-    gulp.src(AJS)
-        .pipe(rename(VNAME + '.min.js'))
-        .pipe(gulp.dest(PJS))
+gulp.task('scripts', function() {
+    return gulp.src(JS)
+        .pipe($.rename(NAME + '.min.js'))
+        .pipe(gulp.dest(join(dirs.public, dirs.scripts)));
 });
 
 gulp.task('bundles', function(){
-    gulp.src(BUNDLES)
+    return gulp.src(BUNDLES)
         .pipe(gulp.dest(dirs.public));
 });
 
-gulp.task('application', function() {
+gulp.task('proto', function(){
+    var files = [
+        join(dirs.public, '*.html'),
+        join(dirs.assets.folder, NAME + '.min.js'),
+        join(dirs.assets.folder, NAME + '.min.css')
+    ];
 
-    // Uncomment this if you want use AngularJS MVC
-    // gulp.src([
-    //         join(dirs.app, 'init.js'),
-    //         join(dirs.app, '**', '*.js'),
-    //         join(dirs.app, '**', 'routes', '*.js'),
-    //         join(dirs.app, '**', 'services', '*.js'),
-    //         join(dirs.app, '**', 'directives', '*.js'),
-    //         join(dirs.app, '**', 'controllers', '*.js')
-    //     ])
-    //     .pipe(concat(ANAME + '.min.js'))
-    //     .pipe(gulp.dest(PJS));
+    var options = {
+        notify: false,
+        open: false,
+        server: {
+            baseDir: dirs.public
+        }
+    };
+
+    bsync.init(files, options, function (err, inj) {
+        if (err) throw Error(err);
+    });
 });
 
-gulp.task('templates', function(){
-
-    // Uncomment this if you want use AngularJS MVC
-    // TEMPLATES.forEach(function(item) {
-    //     item.templates.forEach(function(template) {
-    //         var src = [item.module, template].join('.');
-    //
-    //         gulp.src(join(PLATFORM + '.bundles', src, src + '.html'))
-    //             .pipe(rename(template + '.html'))
-    //             .pipe(gulp.dest(join(dirs.public, 'templates', item.module)));
-    //     });
-    // });
-
+gulp.task('bem', function(){
+    return bem.make({verbosity: 'error'});
 });
 
+gulp.task('watch', function() {
+    gulp.watch([
+            "design/**/**/*.styl",
+            "design/**/**/**/*.styl"
+        ],  $.shell.task(['gulp bstyles']));
 
-gulp.task('views', ['bundles', 'templates']);
-gulp.task('assets', ['styles', 'plugins', 'application']);
+    gulp.watch([
+            "{common.blocks,desktop.blocks}/*.js",
+            "{common.blocks,desktop.blocks}/**/*.js"
+        ],  $.shell.task(['gulp bscripts']));
 
-gulp.task('default', ['views', 'assets']);
+    gulp.watch([
+            "desktop.bundles/**/*.bemjson.js",
+            "{common.blocks,desktop.blocks}/*.bemhtml",
+            "{common.blocks,desktop.blocks}/**/*.bemhtml"
+        ],  $.shell.task(['gulp bbundles']));
+});
+
+gulp.task('bstyles', function () {
+    tsync('bem', 'styles');
+});
+
+gulp.task('bscripts', function () {
+    tsync('bem', 'scripts');
+});
+
+gulp.task('assets', ['styles', 'scripts']);
+
+gulp.task('bassets', function () {
+    tsync('bem', 'assets');
+});
+
+gulp.task('bbundles', function () {
+    tsync('bem', 'bundles');
+});
+
+gulp.task('default', function () {
+    tsync('bem', ['bundles', 'assets']);
+});
+
+gulp.task('dev', function () {
+    tsync('default', ['watch', 'proto']);
+});

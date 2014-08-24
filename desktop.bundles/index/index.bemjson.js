@@ -8,10 +8,9 @@
         { elem: 'meta', attrs : { name : 'viewport', content : 'width=device-width, initial-scale=1.0' } },
         { elem: 'meta', attrs : { name : 'apple-mobile-web-app-title', content : 'BEMup' } },
         { elem: 'meta', attrs : { name : 'apple-mobile-web-app-capable', content : 'yes' } },
-        { elem: 'meta', attrs : { name : 'apple-mobile-web-app-status-bar-style', content : 'black' } },
+        { elem: 'meta', attrs : { name : 'apple-mobile-web-app-status-bar-style', content : 'black-translucent' } },
         { elem: 'link', attrs : { href : 'images/apple-touch-icon.png', rel : 'apple-touch-icon' } },
-        { elem: 'link', attrs : { href : 'images/apple-touch-icon-120x120.png', rel : 'apple-touch-icon', size : '120x120' } },
-        { elem: 'link', attrs : { href : 'images/apple-touch-icon-152x152.png', rel : 'apple-touch-icon', size : '152x152' } }
+        { elem: 'link', attrs : { href : 'images/apple-touch-icon-120x120.png', rel : 'apple-touch-icon', size : '120x120' } }
     ],
     styles : [{ elem : 'css', url : 'assets/application.min.css' }],
     content :[
@@ -20,7 +19,17 @@
             tag : 'header',
             content : [
                 {
-                    tag : 'h2', content : 'Hello, World! This is the first screen of application.'
+                    tag : 'h2', content : 'Привет, пупсик! Я тебя люблю!'
+                },
+                {
+                    block : 'link',
+                    url : 'http://yandex.ru',
+                    content : 'Ссылка'
+                },
+                {
+                    block : 'button',
+                    mods : { theme : 'normal', size : 'xl' },
+                    text : 'Кнопа'
                 }
             ]
         },
@@ -29,21 +38,14 @@
             tag : 'main',
             attrs : { role : 'main' },
             content : [
-                {
-                    tag : 'p', content : 'Find this in desktop.bundles/index/index.bemjson.js'
-                }
+
             ]
         },
         {
             elem : 'footer',
             tag : 'footer',
             content : [
-                'License: ',
-                {
-                    block : 'link',
-                    url : 'http://opensource.org/licenses/MIT',
-                    content : 'MIT'
-                }
+
             ]
         }
     ],

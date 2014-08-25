@@ -18,7 +18,7 @@ var $        = require('gulp-load-plugins')(),
 
 gulp.task('styles', function() {
     return gulp.src(CSS)
-        .pipe($.csso())
+        //.pipe($.csso())
         .pipe($.rename(NAME + '.min.css'))
         .pipe(gulp.dest(join(dirs.public, dirs.styles)));
 });
@@ -37,8 +37,8 @@ gulp.task('bundles', function(){
 gulp.task('proto', function(){
     var files = [
         join(dirs.public, '*.html'),
-        join(dirs.assets.folder, NAME + '.min.js'),
-        join(dirs.assets.folder, NAME + '.min.css')
+        join(dirs.public, dirs.assets.folder, NAME + '.min.js'),
+        join(dirs.public, dirs.assets.folder, NAME + '.min.css')
     ];
 
     var options = {

@@ -10,7 +10,7 @@
         { elem: 'meta', attrs : { name : 'apple-mobile-web-app-capable', content : 'yes' } },
         { elem: 'meta', attrs : { name : 'apple-mobile-web-app-status-bar-style', content : 'black-translucent' } },
         { elem: 'link', attrs : { href : 'images/apple-touch-icon.png', rel : 'apple-touch-icon' } },
-        { elem: 'link', attrs : { href : 'images/apple-touch-icon-120x120.png', rel : 'apple-touch-icon', size : '120x120' } }
+        { elem: 'link', attrs : { href : 'images/apple-touch-icon-120x120.png', rel : 'apple-touch-icon', size : '120x120' } },
     ],
     styles : [{ elem : 'css', url : 'assets/application.min.css' }],
     content :[
@@ -19,17 +19,12 @@
             tag : 'header',
             content : [
                 {
-                    tag : 'h2', content : 'Привет, пупсик! Я тебя люблю!'
-                },
-                {
-                    block : 'link',
-                    url : 'http://yandex.ru',
-                    content : 'Ссылка'
+                    tag : 'h2', content : 'Hello from Alfa!'
                 },
                 {
                     block : 'button',
                     mods : { theme : 'normal', size : 'xl' },
-                    text : 'Кнопа'
+                    text : 'Hello!'
                 }
             ]
         },

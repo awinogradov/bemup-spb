@@ -1,0 +1,8 @@
+block('logo')(
+    content()(function () {
+        return [
+            {elem : 'img', tag : 'span' },
+            {elem : 'service', tag : 'span', content: this.ctx.service}
+        ]
+    })
+)

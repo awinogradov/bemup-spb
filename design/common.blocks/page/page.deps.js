@@ -1,7 +1,6 @@
 ({
-    mustDeps: [],
-    shouldDeps: [
-        {block: 'font'},
+    mustDeps: [
         {block: 'variables'}
-    ]
+    ],
+    shouldDeps: []
 })

@@ -11,3 +11,4 @@ test/libs
 *.bundles/*/*.*
 !*.bundles/*/*.bemjson.js
 !*.bundles/.bem/*
+memories

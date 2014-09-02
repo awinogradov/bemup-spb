@@ -73,7 +73,7 @@ gulp.task('watch', function() {
             "desktop.bundles/**/*.bemjson.js",
             "{common.blocks,desktop.blocks}/*.bemhtml",
             "{common.blocks,desktop.blocks}/**/*.bemhtml"
-        ],  $.shell.task(['gulp bbundles']));
+        ],  $.shell.task(['gulp']));
 });
 
 gulp.task('bstyles', function () {
@@ -88,10 +88,6 @@ gulp.task('assets', ['styles', 'scripts']);
 
 gulp.task('bassets', function () {
     tsync('bem', 'assets');
-});
-
-gulp.task('bbundles', function () {
-    tsync('bem', 'bundles');
 });
 
 gulp.task('default', function () {

@@ -8,7 +8,7 @@ var $        = require('gulp-load-plugins')(),
     path     = require('path'),
     join     = path.join,
 
-    PLATFORM = 'desktop',      // folders with bundles
+    PLATFORM = 'application',  // folders with bundles
     NAME     = 'application',  // assets filename for minified css and js
 
     PATH     = join(PLATFORM + '.bundles', dirs.assets.folder),
@@ -18,7 +18,6 @@ var $        = require('gulp-load-plugins')(),
 
 gulp.task('styles', function() {
     return gulp.src(CSS)
-        //.pipe($.csso())
         .pipe($.rename(NAME + '.min.css'))
         .pipe(gulp.dest(join(dirs.public, dirs.styles)));
 });
@@ -44,6 +43,10 @@ gulp.task('proto', function(){
     var options = {
         notify: false,
         open: false,
+        ghostMode: false,
+        logLevel: 'debug',
+        tunnel: 'bemupspb',
+        minify: false,
         server: {
             baseDir: dirs.public
         }
@@ -65,14 +68,14 @@ gulp.task('watch', function() {
         ],  $.shell.task(['gulp bstyles']));
 
     gulp.watch([
-            "{common.blocks,desktop.blocks}/*.js",
-            "{common.blocks,desktop.blocks}/**/*.js"
+            "{common.blocks,application.blocks}/*.js",
+            "{common.blocks,application.blocks}/**/*.js"
         ],  $.shell.task(['gulp bscripts']));
 
     gulp.watch([
-            "desktop.bundles/**/*.bemjson.js",
-            "{common.blocks,desktop.blocks}/*.bemhtml",
-            "{common.blocks,desktop.blocks}/**/*.bemhtml"
+            "application.bundles/**/*.bemjson.js",
+            "{common.blocks,application.blocks}/*.bemhtml",
+            "{common.blocks,application.blocks}/**/*.bemhtml"
         ],  $.shell.task(['gulp']));
 });
 

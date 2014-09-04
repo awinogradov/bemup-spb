@@ -38,7 +38,7 @@ MAKE.decl('BundleNode', {
         });
     },
 
-    getDesktopLevels : function() {
+    getApplicationLevels : function() {
         return [
             'libs/bem-core/common.blocks',
             'libs/bem-core/desktop.blocks',
@@ -49,8 +49,8 @@ MAKE.decl('BundleNode', {
             'libs/bem-grid/common.blocks',
             'common.blocks',
             'design/common.blocks',
-            'desktop.blocks',
-            'design/desktop.blocks'
+            'application.blocks',
+            'design/application.blocks'
         ];
     },
 
@@ -92,7 +92,7 @@ MAKE.decl('AutoprefixerNode', {
         var platform = this.getPlatform();
         switch(platform) {
 
-        case 'desktop':
+        case 'application':
             return [
                 'last 2 versions',
                 'ie 10',

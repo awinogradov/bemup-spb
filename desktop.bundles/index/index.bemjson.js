@@ -13,7 +13,7 @@
     ],
     styles : [{ elem : 'css', url : 'assets/application.min.css' }],
     content :[
-        'Привет, Питер!'
+        
     ],
     scripts : [
         { elem : 'js', url : 'assets/application.min.js' }

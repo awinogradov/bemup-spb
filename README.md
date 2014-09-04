@@ -10,7 +10,7 @@ Open your terminal and type in it:
 $ npm i
 $ gulp dev
 ```
-Read info message and point your browser to one of two urls. Enjoy!
+Read info message and point your browser to one of three urls. Enjoy!
 
 
 ### [MIT](http://en.wikipedia.org/wiki/MIT_License) License

@@ -3,7 +3,7 @@
   "dependencies": {
     "bem-core": "v2.3.0",
     "bem-components": "0b09f205e38cfd535c692ae1a0cfb36a713d90d0",
-    "bem-grid": "~0.0.6"
+    "bem-grid": "~0.0.7"
   },
   "devDependencies": {}
 }
